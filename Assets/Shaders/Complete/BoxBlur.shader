@@ -53,7 +53,11 @@
 
     SubShader
     {
-        Tags { "RenderType" = "Opaque" }
+        Tags 
+		{ 
+			"RenderType" = "Opaque"
+			"Queue" = "Transparent"
+		}
 
         Pass
         {
@@ -62,11 +66,6 @@
 			#pragma fragment frag_horizontal
 			ENDCG
         }
-
-		GrabPass 
-		{ 
-			"_MainTex" 
-		}
 
 		Pass
 		{

@@ -4,8 +4,8 @@
 public class ImageEffectBase : MonoBehaviour
 {
 	[SerializeField]
-	private Shader shader;
-	private Material material;
+	protected Shader shader;
+	protected Material material;
 
 	private void Awake()
 	{
@@ -14,7 +14,7 @@ public class ImageEffectBase : MonoBehaviour
 	}
 
 	// OnRenderImage() is called when the camera has finished rendering.
-	private void OnRenderImage(RenderTexture src, RenderTexture dst)
+	protected virtual void OnRenderImage(RenderTexture src, RenderTexture dst)
 	{
 		Graphics.Blit(src, dst, material);
 	}
