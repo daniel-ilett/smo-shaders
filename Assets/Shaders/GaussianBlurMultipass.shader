@@ -43,21 +43,18 @@
 
 			float4 frag_horizontal(v2f_img i) : SV_Target
 			{
-				float3 col = float3(0.0, 0.0, 0.0);
-				float kernelSum = 0.0;
+				fixed3 col = fixed3(0.0, 0.0, 0.0);
 
 				int lower = -((_KernelSize - 1) / 2);
 				int upper = -lower;
 
 				for (int x = lower; x <= upper; ++x)
 				{
-					float gauss = gaussian(x);
-					kernelSum += gauss;
-					col += gauss * tex2D(_MainTex, i.uv + fixed2(_MainTex_TexelSize.x * x, 0.0));
+					col += tex2D(_MainTex, i.uv + fixed2(_MainTex_TexelSize.x * x, 0.0));
 				}
 
-				col = col / kernelSum;
-				return float4(col, 1.0);
+				col /= _KernelSize;
+				return fixed4(col, 1.0);
 			}
 			ENDCG
         }
@@ -70,21 +67,18 @@
 
 			float4 frag_vertical(v2f_img i) : SV_Target
 			{
-				float3 col = float3(0.0, 0.0, 0.0);
-				float kernelSum = 0.0;
+				fixed3 col = fixed3(0.0, 0.0, 0.0);
 
 				int lower = -((_KernelSize - 1) / 2);
 				int upper = -lower;
 
 				for (int y = lower; y <= upper; ++y)
 				{
-					float gauss = gaussian(y);
-					kernelSum += gauss;
-					col += gauss * tex2D(_MainTex, i.uv + fixed2(0.0, _MainTex_TexelSize.y * y));
+					col += tex2D(_MainTex, i.uv + fixed2(0.0, _MainTex_TexelSize.y * y));
 				}
 
-				col /= kernelSum;
-				return float4(col, 1.0);
+				col /= _KernelSize;
+				return fixed4(col, 1.0);
 			}
 			ENDCG
 		}

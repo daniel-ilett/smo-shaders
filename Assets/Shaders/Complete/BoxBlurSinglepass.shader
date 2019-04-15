@@ -1,4 +1,4 @@
-﻿Shader "SMO/Complete/BoxBlurSingle"
+﻿Shader "SMO/Complete/BoxBlurSinglepass"
 {
     Properties
     {
@@ -29,7 +29,7 @@
 			// Horizontal blurring pass.
 			fixed4 frag(v2f_img i) : SV_Target
 			{
-				fixed3 sum = fixed3(0.0, 0.0, 0.0);
+				fixed3 col = fixed3(0.0, 0.0, 0.0);
 
 				int lower = -((_KernelSize - 1) / 2);
 				int upper = -lower;
@@ -39,12 +39,12 @@
 					for (int y = lower; y <= upper; ++y)
 					{
 						fixed2 offset = fixed2(_MainTex_TexelSize.x * x, _MainTex_TexelSize.y * y);
-						sum += tex2D(_MainTex, i.uv + offset);
+						col += tex2D(_MainTex, i.uv + offset);
 					}
 				}
 
-				sum /= (_KernelSize * _KernelSize);
-				return fixed4(sum, 1.0);
+				col /= (_KernelSize * _KernelSize);
+				return fixed4(col, 1.0);
 			}
 			ENDCG
         }

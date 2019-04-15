@@ -1,4 +1,4 @@
-﻿Shader "SMO/BoxBlurMulti"
+﻿Shader "SMO/BoxBlurMultipass"
 {
     Properties
     {
