@@ -11,8 +11,8 @@ public class ImageEffectGaussian : ImageEffectBase
 			RenderTexture.GetTemporary(src.width, src.height, 0, src.format);
 
 		// Perform both passes in order.
-		Graphics.Blit(src, tmp, material, 0);
-		Graphics.Blit(tmp, dst, material, 1);
+		Graphics.Blit(src, tmp, material, 0);	// First pass.
+		Graphics.Blit(tmp, dst, material, 1);	// Second pass.
 
 		RenderTexture.ReleaseTemporary(tmp);
 	}

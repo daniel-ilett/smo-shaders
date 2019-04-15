@@ -1,18 +1,18 @@
-﻿Shader "SMO/Complete/GaussianBlur"
+﻿Shader "SMO/GaussianBlurMultipass"
 {
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
 		_KernelSize("Kernel Size (N)", Int) = 21
 		_Spread("St. dev. (sigma)", Float) = 5.0
-    }
+	}
 
-    CGINCLUDE
+	CGINCLUDE
 	#include "UnityCG.cginc"
 
 	// Define the constants used in Gaussian calculation.
-	#define TWO_PI 6.2832
-	#define E 2.71828
+	static const float TWO_PI = 6.28319;
+	static const float E = 2.71828;
 
 	sampler2D _MainTex;
 	float4 _MainTex_ST;
@@ -23,8 +23,7 @@
 	// One-dimensional Gaussian curve function.
 	float gaussian(int x)
 	{
-		float sigmaSqu = _Spread * _Spread;
-		return (1 / sqrt(TWO_PI * sigmaSqu)) * pow(E, -(x * x) / (2 * sigmaSqu));
+		return 1.0;
 	}
 
 	ENDCG

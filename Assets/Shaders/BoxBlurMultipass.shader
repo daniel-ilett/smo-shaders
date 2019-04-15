@@ -1,4 +1,4 @@
-﻿Shader "SMO/Complete/BoxBlur"
+﻿Shader "SMO/BoxBlurMulti"
 {
     Properties
     {
@@ -29,20 +29,11 @@
 			#pragma vertex vert_img
 			#pragma fragment frag_horizontal
 
+			// Horizontal blurring pass.
 			fixed4 frag_horizontal(v2f_img i) : SV_Target
 			{
-				fixed3 sum = fixed3(0.0, 0.0, 0.0);
-
-				int lower = -((_KernelSize - 1) / 2);
-				int upper = -lower;
-
-				for (int x = lower; x <= upper; ++x)
-				{
-					sum += tex2D(_MainTex, i.uv + fixed2(_MainTex_TexelSize.x * x, 0.0));
-				}
-
-				sum /= _KernelSize;
-				return fixed4(sum, 1.0);
+				fixed4 tex = tex2D(_MainTex, i.uv);
+				return tex;
 			}
 			ENDCG
         }
@@ -53,20 +44,11 @@
 			#pragma vertex vert_img
 			#pragma fragment frag_vertical
 
+			// Vertical burring pass.
 			fixed4 frag_vertical(v2f_img i) : SV_Target
 			{
-				fixed3 sum = fixed3(0.0, 0.0, 0.0);
-
-				int lower = -((_KernelSize - 1) / 2);
-				int upper = -lower;
-
-				for (int y = lower; y <= upper; ++y)
-				{
-					sum += tex2D(_MainTex, i.uv + fixed2(0.0, _MainTex_TexelSize.y * y));
-				}
-
-				sum /= _KernelSize;
-				return fixed4(sum, 1.0);
+				fixed4 tex = tex2D(_MainTex, i.uv);
+				return tex;
 			}
 			ENDCG
 		}

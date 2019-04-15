@@ -1,9 +1,9 @@
-﻿Shader "SMO/BoxBlur"
+﻿Shader "SMO/Complete/BoxBlurMulti"
 {
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-		_KernelSize("Kernel Size (N)", Int) = 3
+		_KernelSize("Kernel Size (N)", Int) = 13
     }
 
 	CGINCLUDE
@@ -32,8 +32,18 @@
 			// Horizontal blurring pass.
 			fixed4 frag_horizontal(v2f_img i) : SV_Target
 			{
-				fixed4 tex = tex2D(_MainTex, i.uv);
-				return tex;
+				fixed3 sum = fixed3(0.0, 0.0, 0.0);
+
+				int lower = -((_KernelSize - 1) / 2);
+				int upper = -lower;
+
+				for (int x = lower; x <= upper; ++x)
+				{
+					sum += tex2D(_MainTex, i.uv + fixed2(_MainTex_TexelSize.x * x, 0.0));
+				}
+
+				sum /= _KernelSize;
+				return fixed4(sum, 1.0);
 			}
 			ENDCG
         }
@@ -47,8 +57,18 @@
 			// Vertical burring pass.
 			fixed4 frag_vertical(v2f_img i) : SV_Target
 			{
-				fixed4 tex = tex2D(_MainTex, i.uv);
-				return tex;
+				fixed3 sum = fixed3(0.0, 0.0, 0.0);
+
+				int lower = -((_KernelSize - 1) / 2);
+				int upper = -lower;
+
+				for (int y = lower; y <= upper; ++y)
+				{
+					sum += tex2D(_MainTex, i.uv + fixed2(0.0, _MainTex_TexelSize.y * y));
+				}
+
+				sum /= _KernelSize;
+				return fixed4(sum, 1.0);
 			}
 			ENDCG
 		}
