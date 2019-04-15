@@ -3,7 +3,7 @@
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-		_KernelSize("Kernel Size (N)", Int) = 13
+		_KernelSize("Kernel Size (N)", Int) = 21
     }
 
 	CGINCLUDE

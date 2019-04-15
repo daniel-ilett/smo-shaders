@@ -1,4 +1,4 @@
-﻿Shader "SMO/Complete/GaussianBlurMultipass"
+﻿Shader "SMO/GaussianBlurSinglepass"
 {
     Properties
     {
@@ -20,11 +20,10 @@
 	int	_KernelSize;
 	float _Spread;
 
-	// One-dimensional Gaussian curve function.
-	float gaussian(int x)
+	// Two-dimensional Gaussian curve function.
+	float gaussian(int x, int y)
 	{
-		float sigmaSqu = _Spread * _Spread;
-		return (1 / sqrt(TWO_PI * sigmaSqu)) * pow(E, -(x * x) / (2 * sigmaSqu));
+		return 1.0;
 	}
 
 	ENDCG
@@ -52,9 +51,14 @@
 
 				for (int x = lower; x <= upper; ++x)
 				{
-					float gauss = gaussian(x);
-					kernelSum += gauss;
-					col += gauss * tex2D(_MainTex, i.uv + fixed2(_MainTex_TexelSize.x * x, 0.0));
+					for (int y = lower; y <= upper; ++y)
+					{
+						float gauss = gaussian(x, y);
+						kernelSum += gauss;
+
+						fixed2 offset = fixed2(_MainTex_TexelSize.x * x, _MainTex_TexelSize.y * y);
+						col += gauss * tex2D(_MainTex, i.uv + offset);
+					}
 				}
 
 				col /= kernelSum;
@@ -62,32 +66,5 @@
 			}
 			ENDCG
         }
-
-		Pass
-		{
-			CGPROGRAM
-			#pragma vertex vert_img
-			#pragma fragment frag_vertical
-
-			float4 frag_vertical(v2f_img i) : SV_Target
-			{
-				float3 col = float3(0.0, 0.0, 0.0);
-				float kernelSum = 0.0;
-
-				int lower = -((_KernelSize - 1) / 2);
-				int upper = -lower;
-
-				for (int y = lower; y <= upper; ++y)
-				{
-					float gauss = gaussian(y);
-					kernelSum += gauss;
-					col += gauss * tex2D(_MainTex, i.uv + fixed2(0.0, _MainTex_TexelSize.y * y));
-				}
-
-				col /= kernelSum;
-				return float4(col, 1.0);
-			}
-			ENDCG
-		}
     }
 }
