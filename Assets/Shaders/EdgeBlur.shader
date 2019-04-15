@@ -27,6 +27,7 @@
 		return (1 / sqrt(TWO_PI * sigmaSqu)) * pow(E, -(x * x) / (2 * sigmaSqu));
 	}
 
+	// Helper function to calculate distance from the centre.
 	float getSigma(float2 uv)
 	{
 		return 1.0;
