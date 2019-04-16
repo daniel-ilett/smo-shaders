@@ -7,27 +7,6 @@
 		_Spread("St. dev. (sigma)", Float) = 5.0
 	}
 
-	CGINCLUDE
-	#include "UnityCG.cginc"
-
-	// Define the constants used in Gaussian calculation.
-	static const float TWO_PI = 6.28319;
-	static const float E = 2.71828;
-
-	sampler2D _MainTex;
-	float4 _MainTex_ST;
-	float2 _MainTex_TexelSize;
-	int	_KernelSize;
-	float _Spread;
-
-	// Two-dimensional Gaussian curve function.
-	float gaussian(int x, int y)
-	{
-		return 1.0;
-	}
-
-	ENDCG
-
     SubShader
     {
         Tags 
@@ -40,6 +19,24 @@
 			CGPROGRAM
 			#pragma vertex vert_img
 			#pragma fragment frag_horizontal
+
+			#include "UnityCG.cginc"
+
+			// Define the constants used in Gaussian calculation.
+			static const float TWO_PI = 6.28319;
+			static const float E = 2.71828;
+
+			sampler2D _MainTex;
+			float4 _MainTex_ST;
+			float2 _MainTex_TexelSize;
+			int	_KernelSize;
+			float _Spread;
+
+			// Two-dimensional Gaussian curve function.
+			float gaussian(int x, int y)
+			{
+				return 1.0;
+			}
 
 			float4 frag_horizontal(v2f_img i) : SV_Target
 			{
