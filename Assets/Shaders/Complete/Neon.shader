@@ -76,8 +76,8 @@
 				float3 tex = tex2D(_MainTex, i.uv);
 
 				float3 hsvTex = rgb2hsv(tex);
-				hsvTex.y = 1.0;
-				hsvTex.z = 1.0;
+				hsvTex.y = 1.0;		// Modify saturation.
+				hsvTex.z = 1.0;		// Modify lightness/value.
 				float3 col = hsv2rgb(hsvTex);
 
 				return float4(col * s, 1.0);
