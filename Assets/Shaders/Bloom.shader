@@ -1,11 +1,10 @@
-﻿Shader "SMO/Complete/Bloom"
+﻿Shader "SMO/Bloom"
 {
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
 		_KernelSize("Kernel Size (N)", Int) = 21
 		_Spread("St. dev. (sigma)", Float) = 5.0
-		_Threshold("Bloom Threshold", Range(0, 1)) = 0.5
     }
     SubShader
     {
@@ -23,8 +22,6 @@
 
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
-
-			float _Threshold;
 
 			// Credit for these two functions:
 			// http://lolengine.net/blog/2013/07/27/rgb-to-hsv-in-glsl
@@ -49,19 +46,11 @@
 			float4 frag(v2f_img i) : SV_Target
 			{
 				float4 tex = tex2D(_MainTex, i.uv);
-				float brightness = rgb2hsv(tex).y;
 
-				return (brightness > _Threshold) ? tex : float4(0.0, 0.0, 0.0, 1.0);
+				return tex;
 			}
 			ENDCG
 		}
-
-		// If using single-pass blur.
-		UsePass "SMO/Complete/GaussianBlurSinglepass/BLURPASS"
-
-		// If using multipass blur.
-		UsePass "SMO/Complete/GaussianBlurMultipass/HORIZONTALPASS"
-		UsePass "SMO/Complete/GaussianBlurMultipass/VERTICALPASS"
 
 		Pass
 		{
@@ -77,15 +66,11 @@
 			float4 _MainTex_ST;
 			float2 _MainTex_TexelSize;
 
-			// Texture representing the result of the bloom blur.
-			sampler2D _SrcTex;
-
 			float4 frag(v2f_img i) : SV_Target
 			{
-				float3 originalTex = tex2D(_SrcTex, i.uv);
-				float3 blurredTex = tex2D(_MainTex, i.uv);
+				float3 originalTex = tex2D(_MainTex, i.uv);
 
-				return float4(originalTex + blurredTex, 1.0);
+				return float4(originalTex, 1.0);
 			}
 			ENDCG
 		}

@@ -38,6 +38,8 @@
 
         Pass
         {
+			Name "HorizontalPass"
+
 			CGPROGRAM
 			#pragma vertex vert_img
 			#pragma fragment frag_horizontal
@@ -65,6 +67,8 @@
 
 		Pass
 		{
+			Name "VerticalPass"
+
 			CGPROGRAM
 			#pragma vertex vert_img
 			#pragma fragment frag_vertical

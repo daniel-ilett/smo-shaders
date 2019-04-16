@@ -6,7 +6,12 @@ public class ImageEffectBloom : ImageEffectBase
 {
 	private const int thresholdPass = 0;
 	private const int blurPass = 1;
-	private const int bloomPass = 2;
+	private const int horizontalPass = 2;
+	private const int verticalPass = 3;
+	private const int bloomPass = 4;
+
+	[SerializeField]
+	private BlurMode blurMode = BlurMode.MultiPass;
 
 	protected override void OnRenderImage(RenderTexture src, RenderTexture dst)
 	{
@@ -21,9 +26,23 @@ public class ImageEffectBloom : ImageEffectBase
 		material.SetInt("_KernelSize", 21);
 		material.SetFloat("_Spread", 5.0f);
 
-		Graphics.Blit(thresholdTex, blurTex, material, blurPass);
+		if(blurMode == BlurMode.SinglePass)
+		{
+			Graphics.Blit(thresholdTex, blurTex, material, blurPass);
 
-		RenderTexture.ReleaseTemporary(thresholdTex);
+			RenderTexture.ReleaseTemporary(thresholdTex);
+		}
+		else
+		{
+			RenderTexture temp =
+				RenderTexture.GetTemporary(src.width, src.height, 0, src.format);
+
+			Graphics.Blit(thresholdTex, temp, material, horizontalPass);
+			Graphics.Blit(temp, blurTex, material, verticalPass);
+
+			RenderTexture.ReleaseTemporary(thresholdTex);
+			RenderTexture.ReleaseTemporary(temp);
+		}
 
 		material.SetTexture("_SrcTex", src);
 
@@ -31,4 +50,9 @@ public class ImageEffectBloom : ImageEffectBase
 
 		RenderTexture.ReleaseTemporary(blurTex);
 	}
+}
+
+enum BlurMode
+{
+	SinglePass, MultiPass
 }
