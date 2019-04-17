@@ -83,7 +83,7 @@
 			float4 frag(v2f_img i) : SV_Target
 			{
 				float3 originalTex = tex2D(_SrcTex, i.uv);
-				float3 blurredTex = tex2D(_MainTex, i.uv);
+				float3 blurredTex  = tex2D(_MainTex, i.uv);
 
 				return float4(originalTex + blurredTex, 1.0);
 			}
