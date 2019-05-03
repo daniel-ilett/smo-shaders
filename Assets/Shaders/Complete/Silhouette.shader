@@ -27,7 +27,7 @@
             fixed4 frag (v2f_img i) : SV_Target
             {
                 float depth = UNITY_SAMPLE_DEPTH(tex2D(_CameraDepthTexture, i.uv));
-				depth = pow(Linear01Depth(depth), 3);
+				depth = pow(Linear01Depth(depth), 0.75);
 
 				return lerp(_NearColour, _FarColour, depth);
             }
