@@ -43,8 +43,8 @@
 				float3 col = float3(0.0, 0.0, 0.0);
 				float kernelSum = 0.0;
 
-				int lower = -((_KernelSize - 1) / 2);
-				int upper = -lower;
+				int upper = ((_KernelSize - 1) / 2);
+				int lower = -upper;
 
 				for (int x = lower; x <= upper; ++x)
 				{
