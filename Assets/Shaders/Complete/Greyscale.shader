@@ -1,4 +1,8 @@
-﻿Shader "SMO/Complete/Greyscale"
+﻿/*	This shader calculates a luminance value based on the colour of the pixel,
+	then outputs a greyscale value based on that luminance (i.e. the red, green
+	and blue colour channels all use that luminance value).
+*/
+Shader "SMO/Complete/Greyscale"
 {
     Properties
     {
