@@ -1,4 +1,7 @@
-﻿Shader "SMO/Complete/Base"
+﻿/*	This shader samples _MainTex and returns the colour immediately. As an image
+	effect, this shader does nothing; it is a skeleton to build effects on.
+*/
+Shader "SMO/Complete/Base"
 {
     Properties
     {
@@ -19,6 +22,9 @@
             sampler2D _MainTex;
             float4    _MainTex_ST;
 
+			/*	Sample the screen texture at the pixel position and return the
+				colour immediately.
+			*/
             fixed4 frag (v2f_img i) : SV_Target
             {
 				fixed4 tex = tex2D(_MainTex, i.uv);
