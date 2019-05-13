@@ -1,5 +1,29 @@
-﻿Shader "SMO2/Complete/CRTScreen"
+﻿/*	This shader implements a CRT screen effect by mapping pixels in a special
+	way such that they output mostly a red, green or blur colour based on its
+	column, or completely black if it's a scanline:
+
+	*---*---*---*---*---*---*	R = Red pixel
+	| R | G | B | R | G | B |	G = Green pixel
+	*---*---*---*---*---*---*	B = Blue pixel
+	| R | G | B | R | G | B |	S = Scanline (black) pixel
+	*---*---*---*---*---*---*
+	| S | S | S | S | S | S |
+	*---*---*---*---*---*---*
+
+	This occurs in a 3x3 pixel pattern, so it it best complemented by a shader
+	using the ImageEffectPixelate.cs script with the pixelation set to 3. There
+	is some 'bleeding' of colour horizontally to emulate the way a CRT's
+	electron gun sweeps across each scanline horizontally.
+
+	The shader requires the ImageEffectCRT.cs script to operate correctly and
+	set the values of _Brightness and _Contrast.
+*/
+Shader "SMO/Complete/CRTScreen"
 {
+	/*	The _Brightness and _Contrast values can be tweaked to match those of a
+		CRT screen. Brightness is important to counteract the darkening effect
+		of faking a dark scanline in the image.
+	*/
 	Properties
 	{
 		_MainTex ("Texture", 2D) = "white" {}
@@ -18,6 +42,10 @@
 			
 			#include "UnityCG.cginc"
 
+			/*	screenPos is used to detect which 'column' and 'row' a pixel
+				is in to assign the correct 'colour', as described in the
+				diagram above.
+			*/
 			struct v2f
 			{
 				float2 uv : TEXCOORD0;
@@ -44,6 +72,9 @@
 			
 				fixed2 sp = i.screenPos.xy * _ScreenParams.xy;
 
+				/*	The values that are divided by 4 represent the 'colour
+					bleed' as discussed.
+				*/
 				float3 r = float3(col.r,     col.g / 4, col.b / 4);
 				float3 g = float3(col.r / 4, col.g,     col.b / 4);
 				float3 b = float3(col.r / 4, col.g / 4, col.b);
@@ -54,8 +85,18 @@
 
 				float3x3 scanlineMap = float3x3(wh, wh, bl);
 
+				/*	The matrices are being accessed like arrays here:
+
+						colormap[0] = r = (col.r, col.g / 4, col.b / 4)
+						scanlineMap[2] = bl = (0.0, 0.0, 0.0)
+
+					The pixel rows and columns are used (with modulo (i.e. %) 
+					arithmetic) to determine the 'array index'.
+				*/
 				fixed3 returnVal = colormap[(int)sp.x % 3] * scanlineMap[(int)sp.y % 3];
 
+				/*	Apply the brightness and contrast modifiers.
+				*/
 				returnVal += (_Brightness / 255);
 				returnVal = saturate(returnVal);
 				returnVal = returnVal - _Contrast * (returnVal - 1.0) * returnVal * (returnVal - 0.5);
