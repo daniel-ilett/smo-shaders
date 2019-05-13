@@ -1,6 +1,8 @@
 ﻿/*	This shader picks between four possible colours based on the luminance of
 	the pixel. It is very similar to the Greyscale shader, with the added step
 	of picking one of four colours.
+
+	This shader works best with the ImageEffectPixelate.cs script.
 */
 Shader "SMO/Complete/PixelGB"
 {
