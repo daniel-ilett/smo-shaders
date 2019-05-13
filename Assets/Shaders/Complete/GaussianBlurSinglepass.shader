@@ -1,4 +1,9 @@
-﻿Shader "SMO/Complete/GaussianBlurSinglepass"
+﻿/*	This shader implements a single-pass Gaussian blur, similar to the 
+	single-pass box blur. An extra _Spread property is added to control the 
+	strength of the Gaussian blur. Apart from this, the general structure of 
+	the blur is the same as BoxBlurSinglepass.shader.
+*/
+Shader "SMO/Complete/GaussianBlurSinglepass"
 {
     Properties
     {
@@ -34,7 +39,8 @@
 			int	_KernelSize;
 			float _Spread;
 
-			// Two-dimensional Gaussian curve function.
+			/*	Implement the Gaussian function in two dimensions.
+			*/
 			float gaussian(int x, int y)
 			{
 				float sigmaSqu = _Spread * _Spread;
