@@ -1,5 +1,14 @@
-﻿Shader "SMO/Complete/Bloom"
+﻿/*	This shader combines the result of a blurring operation that acts only on 
+	the brightest pixels of the image, the unblurred version of the image.
+
+	The blurring steps are provided with UsePass, with single-pass and
+	multi-pass Gaussian blur variants.
+*/
+Shader "SMO/Complete/Bloom"
 {
+	/*	The Properties section must include anything required by UsePass passes,
+		hence the inclusion of _KernelSize and _Spread.
+	*/
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
@@ -26,8 +35,9 @@
 
 			float _Threshold;
 
-			// Credit for these two functions:
-			// http://lolengine.net/blog/2013/07/27/rgb-to-hsv-in-glsl
+			/*	Credit: http://lolengine.net/blog/2013/07/27/rgb-to-hsv-in-glsl
+				Converts an RGB vector to an HSV (hue, saturation, value) vector.
+			*/
 			float3 rgb2hsv(float3 c)
 			{
 				float4 K = float4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
@@ -39,6 +49,9 @@
 				return float3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
 			}
 
+			/*	Credit: http://lolengine.net/blog/2013/07/27/rgb-to-hsv-in-glsl
+				Converts an HSV (hue, saturation, value) vector to an RGB vector.
+			*/
 			float3 hsv2rgb(float3 c)
 			{
 				float4 K = float4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
@@ -55,6 +68,14 @@
 			}
 			ENDCG
 		}
+
+		/*	UsePass takes passes from other shader files and copies them into
+			this shader file. 
+			
+			Pass #1 of this shader file is a single-pass
+			Gaussian blur, and passes #2 and #3 are the horizontal and vertical
+			passes of a two-pass Gaussian blur respectively.
+		*/
 
 		// If using single-pass blur.
 		UsePass "SMO/Complete/GaussianBlurSinglepass/BLURPASS"
@@ -80,6 +101,10 @@
 			// Texture representing the result of the bloom blur.
 			sampler2D _SrcTex;
 
+			/*	Poll the unblurred texture (_SrcTex, passed from a C# script
+				using Material.SetTexture()) and the blurred texture (_MainTex)
+				and return their sum.
+			*/
 			float4 frag(v2f_img i) : SV_Target
 			{
 				float3 originalTex = tex2D(_SrcTex, i.uv);
