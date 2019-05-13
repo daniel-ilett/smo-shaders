@@ -20,7 +20,14 @@ public class CameraMove : MonoBehaviour
 		rotation += new Vector2(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"));
 		transform.eulerAngles = rotation * cameraSpeed;
 
-		Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
-		transform.Translate(move * moveSpeed * Time.deltaTime);
+        // Move the camera.
+        float x = Input.GetAxis("Horizontal");
+        float y = Input.GetAxis("Elevation");
+        float z = Input.GetAxis("Vertical");
+		Vector3 move = new Vector3(x, y, z);
+
+        float speed = moveSpeed * (Input.GetButton("Jump") ? 2.5f : 1.0f);
+
+        transform.Translate(move * speed * Time.deltaTime);
 	}
 }
