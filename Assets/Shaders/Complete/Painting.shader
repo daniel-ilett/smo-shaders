@@ -1,4 +1,30 @@
-﻿Shader "SMO2/Complete/Painting"
+﻿/*	This shader separates the kernel into four (overlapping) regions. The
+	variance and of each region is calculated, then the region with the lowest
+	variance is picked and its mean pixel colour is used as the output pixel
+	colour. The kernel is split into four regions like this, for a kernel size
+	of 5:
+
+	*------*------*------*------*------*
+	|  C   |  C   |  CD  |   D  |   D  |	Region A: Bottom-left
+	|      |      |      |      |      |
+	*------*------*------*------*------*
+	|  C   |  C   |  CD  |   D  |   D  |	Region B: Bottom-right
+	|      |      |      |      |      |
+	*------*------*------*------*------*
+	|  C   |  C   |  CD  |   D  |   D  |	Region C: Top-left
+	|  A   |  A   |  AB  |   B  |   B  |
+	*------*------*------*------*------*
+	|      |      |      |      |      |	Region D: Top-right
+	|  A   |  A   |  AB  |   B  |   B  |
+	*------*------*------*------*------*					*------*
+	|      |      |      |      |      |	Centre pixel:	|  CD  |
+	|  A   |  A   |  AB  |   B  |   B  |					|  AB  |
+	*------*------*------*------*------*					*------*
+
+	The idea is that the most "stable" region - one representative of the
+	pixel's colour - is picked.
+*/
+Shader "SMO/Complete/Painting"
 {
     Properties
     {
@@ -22,12 +48,19 @@
 
 			int _KernelSize;
 
+			/* To avoid recalculating the mean once we have found the region
+				with the lowest variance (and because the mean is going to be
+				calculated anyway), we'll package both inside a struct.
+			*/
 			struct region
 			{
 				float3 mean;
 				float variance;
 			};
 
+			/*	Given a region bound and a centre-pixel UV, calculate the mean
+				and variance of the region.
+			*/
 			region calcRegion(int2 lower, int2 upper, int samples, float2 uv)
 			{
 				region r;
@@ -59,6 +92,7 @@
 
 				int samples = (upper + 1) * (upper + 1);
 
+				// Calculate the four regional parameters as discussed.
 				region regionA = calcRegion(int2(lower, lower), int2(0, 0), samples, i.uv);
 				region regionB = calcRegion(int2(0, lower), int2(upper, 0), samples, i.uv);
 				region regionC = calcRegion(int2(lower, 0), int2(0, upper), samples, i.uv);
@@ -67,6 +101,9 @@
 				fixed3 col = regionA.mean;
 				fixed minVar = regionA.variance;
 
+				/*	Cascade through each region and compare variances - the end
+					result will be the that the correct mean is picked for col.
+				*/
 				float testVal;
 
 				testVal = step(minVar, regionB.variance);
