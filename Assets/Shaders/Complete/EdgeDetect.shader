@@ -68,7 +68,6 @@ Shader "SMO/Complete/EdgeDetect"
 				return sqrt(x * x + y * y);
 			}
 
-			// Horizontal blurring pass.
 			fixed4 frag(v2f_img i) : SV_Target
 			{
 				return fixed4(sobel(i.uv), 1.0);
