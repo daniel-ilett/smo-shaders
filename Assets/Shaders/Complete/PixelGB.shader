@@ -1,5 +1,12 @@
-﻿Shader "SMO2/Complete/PixelGB"
+﻿/*	This shader picks between four possible colours based on the luminance of
+	the pixel. It is very similar to the Greyscale shader, with the added step
+	of picking one of four colours.
+*/
+Shader "SMO/Complete/PixelGB"
 {
+	/*	The Game Boy could use different palettes, so we allow passing in
+		four colours to represent the four possible shades.
+	*/
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
@@ -27,6 +34,10 @@
 			float4 _GBLight;
 			float4 _GBLightest;
 
+			/*	Once the luminance is calculated, the 'lerp-saturate cascade'
+				trick is used to pick the correct colour instead of slow
+				branching (if-statements).
+			*/
             fixed4 frag (v2f_img i) : SV_Target
             {
 				fixed4 tex = tex2D(_MainTex, i.uv);
