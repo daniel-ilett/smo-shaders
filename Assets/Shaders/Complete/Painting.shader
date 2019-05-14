@@ -29,7 +29,7 @@ Shader "SMO/Complete/Painting"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-		_KernelSize("Kernel Size (N)", Int) = 7
+		_KernelSize("Kernel Size (N)", Int) = 17
     }
     SubShader
     {
@@ -71,8 +71,8 @@ Shader "SMO/Complete/Painting"
 				{
 					for (int y = lower.y; y <= upper.y; ++y)
 					{
-						fixed2 offset = fixed2(_MainTex_TexelSize.x * x, _MainTex_TexelSize.y * y);
-						fixed3 tex = tex2D(_MainTex, uv + offset);
+						float2 offset = float2(_MainTex_TexelSize.x * x, _MainTex_TexelSize.y * y);
+						float3 tex = tex2D(_MainTex, uv + offset);
 						sum += tex;
 						squareSum += tex * tex;
 					}
@@ -106,15 +106,15 @@ Shader "SMO/Complete/Painting"
 				*/
 				float testVal;
 
-				testVal = step(minVar, regionB.variance);
+				testVal = step(regionB.variance, minVar);
 				col = lerp(col, regionB.mean, testVal);
 				minVar = lerp(minVar, regionB.variance, testVal);
 
-				testVal = step(minVar, regionC.variance);
+				testVal = step(regionC.variance, minVar);
 				col = lerp(col, regionC.mean, testVal);
 				minVar = lerp(minVar, regionC.variance, testVal);
 
-				testVal = step(minVar, regionD.variance);
+				testVal = step(regionD.variance, minVar);
 				col = lerp(col, regionD.mean, testVal);
 
 				return fixed4(col, 1.0);
