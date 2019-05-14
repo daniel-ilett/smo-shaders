@@ -15,6 +15,11 @@ Several shaders are included in this project, corresponding to the following Sna
 ## Software
 The project was created using Unity 2019.2.0a9, but it should be possible to upgrade or downgrade to other versions of Unity.
 
+## Assets
+This project uses the following assets:
+- ["Single Street Lamp" by Christopher Fisher](https://assetstore.unity.com/packages/3d/environments/urban/single-street-lamp-121728);
+- ["Bench" by IL.RANCH](https://assetstore.unity.com/packages/3d/props/exterior/bench-75025).
+
 ## Authors
 These shaders, and the corresponding tutorial series, were written by [Daniel Ilett](https://github.com/daniel-ilett).
 
