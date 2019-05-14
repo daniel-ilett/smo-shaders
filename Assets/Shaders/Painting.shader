@@ -1,4 +1,4 @@
-﻿Shader "SMO2/Painting"
+﻿Shader "SMO/Painting"
 {
     Properties
     {

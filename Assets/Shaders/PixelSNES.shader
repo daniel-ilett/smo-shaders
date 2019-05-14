@@ -1,4 +1,4 @@
-﻿Shader "SMO2/PixelSNES"
+﻿Shader "SMO/PixelSNES"
 {
     Properties
     {

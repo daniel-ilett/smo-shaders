@@ -1,4 +1,4 @@
-﻿Shader "SMO2/PixelGB"
+﻿Shader "SMO/PixelGB"
 {
     Properties
     {
