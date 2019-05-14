@@ -549,9 +549,9 @@ GameObject:
   - component: {fileID: 963194226}
   - component: {fileID: 963194229}
   - component: {fileID: 963194230}
-  - component: {fileID: 963194231}
   - component: {fileID: 963194234}
   - component: {fileID: 963194233}
+  - component: {fileID: 963194231}
   - component: {fileID: 963194232}
   m_Layer: 0
   m_Name: Main Camera
@@ -649,7 +649,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad744575a87beec48860e1fe2e1561cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shader: {fileID: 4800000, guid: c965c0188009658429bb161a8022cba3, type: 3}
+  shader: {fileID: 4800000, guid: 56e1ddf59ba52bc48a1b198e526c8ecb, type: 3}
 --- !u!114 &963194231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -676,7 +676,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54b62247dc367a240b8061c954264ff0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shader: {fileID: 0}
+  shader: {fileID: 4800000, guid: 9ccd14f7f1b8e524bb577beb096ef591, type: 3}
 --- !u!114 &963194233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -704,7 +704,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1844865435e98c94f8a62ddd59679e68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shader: {fileID: 4800000, guid: 2db984693759f684f90c23d678c96605, type: 3}
+  shader: {fileID: 4800000, guid: 56e1ddf59ba52bc48a1b198e526c8ecb, type: 3}
   pixelSize: 3
 --- !u!1001 &1046408577
 PrefabInstance:
@@ -713,11 +713,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 200036310}
     m_Modifications:
-    - target: {fileID: 4511097851729062868, guid: 4522591f4fc72124893d3cfb9208801e,
-        type: 3}
-      propertyPath: hoverVector.y
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 2291378454928560441, guid: 4522591f4fc72124893d3cfb9208801e,
         type: 3}
       propertyPath: m_Name
@@ -783,6 +778,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 0cbb6de8bf66a5240a02eb542623b01f, type: 2}
+    - target: {fileID: 4511097851729062868, guid: 4522591f4fc72124893d3cfb9208801e,
+        type: 3}
+      propertyPath: hoverVector.y
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4522591f4fc72124893d3cfb9208801e, type: 3}
 --- !u!4 &1046408578 stripped
@@ -11593,7 +11593,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-15458
+  m_Name: pb_Mesh13040
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
