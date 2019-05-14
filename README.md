@@ -1,5 +1,7 @@
 # SMO Shaders
 
+![SMO Banner](banner.png)
+
 ## Overview
 This repository contains a Unity project that emulates the shaders found in Super Mario Odyssey's Snapshot Mode. Inside the `Shaders` folder, there is a collection of template shader files, alongside a folder called `Complete` which contains finished and commented versions of all of those shader files. The reader is intended to follow the Image Effects tutorial series found on https://danielilett.com/, which outlines how each of the shaders work.
 
