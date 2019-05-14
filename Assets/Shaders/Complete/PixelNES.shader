@@ -40,6 +40,9 @@ Shader "SMO/Complete/PixelNES"
 				int g = (tex.g - EPSILON) * 4;
 				int b = (tex.b - EPSILON) * 4;
 
+				/*	Divide by 3, not 4, because we're dividing by the maximum
+					value of each channel integer (which is 3).
+				*/
 				return float4(r / 3.0, g / 3.0, b / 3.0, 1.0);
             }
             ENDCG
