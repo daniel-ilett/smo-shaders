@@ -8,9 +8,32 @@ Several shaders are included in this project, corresponding to the following Sna
 - Greyscale;
 - Sepia-tone;
 - Silhouette;
-- Blur;
+- Blur (Edge Blur);
 - Line Drawing;
-- Neon.
+- Neon;
+- NES;
+- SNES;
+- Game Boy;
+- Oil Painting.
+
+Some auxiliary shaders are also provided to assist in creating Snapshot Mode effects:
+- Box Blur;
+- Gaussian Blur;
+- Bloom;
+- CRT TV.
+
+### Scripts Included
+A few helper scripts are also provided alongside these shaders in order to control them:
+- ImageEffectBase.cs;
+- ImageEffectGaussian.cs;
+- ImageEffectBloom.cs;
+- ImageEffectPixelate.cs;
+- ImageEffectCRT.cs.
+
+Additionally, more scripts related to the test scene are included:
+- CameraMove.cs;
+- Rotate.cs;
+- Hover.cs.
 
 ## Software
 The project was created using Unity 2019.2.0a9, but it should be possible to upgrade or downgrade to other versions of Unity.
