@@ -1,4 +1,8 @@
-﻿Shader "SMO/Complete/Sepia"
+﻿/*	This shader is similar to Greyscale.shader, except the mapping doesn't just
+	map one value to R, G and B; all three colour channel inputs influence the 
+	output of each of the three colour channels.
+*/
+Shader "SMO/Complete/Sepia"
 {
     Properties
     {
@@ -23,7 +27,16 @@
             {
                 fixed4 tex = tex2D(_MainTex, i.uv);
 
-				// These coefficients represent the sepia-tone transform.
+				/*	These coefficients represent the sepia-tone transform.
+
+					output r = 0.393 * tex.r + 0.349 * tex.g + 0.272 * tex.b
+					output g = 0.769 * tex.r + 0.686 * tex.g + 0.534 * tex.b
+					output b = 0.189 * tex.r + 0.168 * tex.g + 0.131 * tex.b
+
+					The coefficients are based on eye sensitivity to each colour
+					and the relative amounts of each colour found in old-timey
+					sepia-tone photographs.
+				*/
 				half3x3 sepiaMatrix = half3x3
 				(
 					0.393, 0.349, 0.272,	// Red.
