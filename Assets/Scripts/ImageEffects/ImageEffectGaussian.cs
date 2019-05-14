@@ -4,7 +4,15 @@ using UnityEngine;
 
 public class ImageEffectGaussian : ImageEffectBase
 {
-	protected override void OnRenderImage(RenderTexture src, RenderTexture dst)
+    [SerializeField]
+    private int kernelSize = 21;
+
+    private void Start()
+    {
+        material.SetInt("_KernelSize", kernelSize);
+    }
+
+    protected override void OnRenderImage(RenderTexture src, RenderTexture dst)
 	{
 		// Create a temporary RenderTexture to hold the first pass.
 		RenderTexture tmp = 

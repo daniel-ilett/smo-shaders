@@ -1056,7 +1056,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 75
+  far clip plane: 50
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -1082,8 +1082,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.13052596, y: -0, z: -0, w: 0.99144495}
-  m_LocalPosition: {x: 2, y: 3, z: 2}
+  m_LocalRotation: {x: -0.08238633, y: 0.912415, z: -0.22794095, w: -0.32977927}
+  m_LocalPosition: {x: 14.065109, y: 9.2288, z: 17.636837}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1096,7 +1096,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e4f2a671629280c4a87d0eae075a2c42, type: 3}
   m_Name: 
@@ -1114,7 +1114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad744575a87beec48860e1fe2e1561cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shader: {fileID: 4800000, guid: c965c0188009658429bb161a8022cba3, type: 3}
+  shader: {fileID: 4800000, guid: a00a99860e2a7e342a18c86a1165fda4, type: 3}
 --- !u!114 &963194231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1141,7 +1141,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54b62247dc367a240b8061c954264ff0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shader: {fileID: 4800000, guid: 9ccd14f7f1b8e524bb577beb096ef591, type: 3}
+  shader: {fileID: 4800000, guid: b35688d0c6175c440be3bb78b54359ba, type: 3}
+  kernelSize: 13
 --- !u!114 &963194233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1169,7 +1170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1844865435e98c94f8a62ddd59679e68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shader: {fileID: 4800000, guid: 56e1ddf59ba52bc48a1b198e526c8ecb, type: 3}
+  shader: {fileID: 4800000, guid: 2db984693759f684f90c23d678c96605, type: 3}
   pixelSize: 3
 --- !u!54 &963194235
 Rigidbody:
