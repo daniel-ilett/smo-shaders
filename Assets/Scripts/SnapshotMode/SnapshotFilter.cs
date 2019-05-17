@@ -5,13 +5,20 @@ using UnityEngine;
 public abstract class SnapshotFilter
 {
     protected Material mainMaterial;
+    protected string name;
 
-    public SnapshotFilter(Shader shader)
+    public SnapshotFilter(string name, Shader shader)
     {
+        this.name = name;
         mainMaterial = new Material(shader);
     }
 
     public abstract void OnRenderImage(RenderTexture src, RenderTexture dst);
+
+    public string GetName()
+    {
+        return name;
+    }
 }
 
 /*  A BaseFilter just takes an input texture and applies a Blit() without any
@@ -19,7 +26,7 @@ public abstract class SnapshotFilter
  */
 public class BaseFilter : SnapshotFilter
 {
-    public BaseFilter(Shader shader) : base(shader)
+    public BaseFilter(string name, Shader shader) : base(name, shader)
     {
 
     }
@@ -35,7 +42,7 @@ public class BaseFilter : SnapshotFilter
  */
 public class BlurFilter : SnapshotFilter
 {
-    public BlurFilter(Shader shader) : base(shader)
+    public BlurFilter(string name, Shader shader) : base(name, shader)
     {
         mainMaterial.SetInt("_KernelSize", 21);
     }
@@ -65,7 +72,7 @@ public class BloomFilter : BlurFilter
     private const int verticalPass = 3;
     private const int bloomPass = 4;
 
-    public BloomFilter(Shader shader) : base(shader)
+    public BloomFilter(string name, Shader shader) : base(name, shader)
     {
         // Set Gaussian blur properties.
         mainMaterial.SetFloat("_Spread", 5.0f);
@@ -101,7 +108,8 @@ public class NeonFilter : BloomFilter
 {
     private BaseFilter neonFilter;
 
-    public NeonFilter(Shader shader, BaseFilter neonFilter) : base(shader)
+    public NeonFilter(string name, Shader shader, BaseFilter neonFilter) 
+        : base(name, shader)
     {
         this.neonFilter = neonFilter;
     }
@@ -114,6 +122,8 @@ public class NeonFilter : BloomFilter
         neonFilter.OnRenderImage(src, tmp);
 
         base.OnRenderImage(tmp, dst);
+
+        RenderTexture.ReleaseTemporary(tmp);
     }
 }
 
@@ -123,7 +133,7 @@ public class PixelFilter : SnapshotFilter
 {
     private const int pixelSize = 3;
 
-    public PixelFilter(Shader shader) : base(shader)
+    public PixelFilter(string name, Shader shader) : base(name, shader)
     {
 
     }
@@ -143,27 +153,26 @@ public class PixelFilter : SnapshotFilter
         Graphics.Blit(src, tmp);
 
         Graphics.Blit(tmp, dst, mainMaterial);
+
+        RenderTexture.ReleaseTemporary(tmp);
     }
 }
 
-/*  A CRTFilter is based on BloomFilter for the colour bleed and a PixelFilter
- *  for its colourisation. It also needs to apply its own CRT pixel overlay,
- *  so it is based on BaseFilter too. The BloomFilter and PixelFilter are
- *  passed in as arguments and the class inherits BaseFilter.
+/*  A CRTFilter is based on PixelFilter for its colourisation. It also needs to 
+ *  apply its own CRT pixel overlay, so it is based on BaseFilter too. The 
+ *  PixelFilter is passed in as an argument and the class inherits BaseFilter.
  */
 public class CRTFilter : BaseFilter
 {
     private PixelFilter pixelFilter;
-    private BloomFilter bloomFilter;
 
     private const float brightness = 27.0f;
     private const float contrast = 2.1f;
 
-    public CRTFilter(Shader shader, PixelFilter pixelFilter, BloomFilter bloomFilter) 
-        : base(shader)
+    public CRTFilter(string name, Shader shader, PixelFilter pixelFilter) 
+        : base(name, shader)
     {
         this.pixelFilter = pixelFilter;
-        this.bloomFilter = bloomFilter;
 
         mainMaterial.SetFloat("_Brightness", brightness);
         mainMaterial.SetFloat("_Contrast", contrast);
@@ -171,13 +180,13 @@ public class CRTFilter : BaseFilter
 
     public override void OnRenderImage(RenderTexture src, RenderTexture dst)
     {
-        RenderTexture tmp =
+        RenderTexture tmp = 
             RenderTexture.GetTemporary(src.width, src.height, 0, src.format);
 
         pixelFilter.OnRenderImage(src, tmp);
 
-        Graphics.Blit(tmp, src, mainMaterial);
+        Graphics.Blit(tmp, dst, mainMaterial);
 
-        bloomFilter.OnRenderImage(src, dst);
+        RenderTexture.ReleaseTemporary(tmp);
     }
 }

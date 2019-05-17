@@ -9,6 +9,11 @@ public class SnapshotMode : MonoBehaviour
     [SerializeField]
     private bool useCanvas = true;
 
+    [SerializeField]
+    private SnapshotCanvas snapshotCanvasPrefab;
+
+    private SnapshotCanvas snapshotCanvas;
+
     private Shader noneShader;
     private Shader greyscaleShader;
     private Shader sepiaShader;
@@ -30,6 +35,13 @@ public class SnapshotMode : MonoBehaviour
 
     private void Awake()
     {
+        // Add a canvas to show the current filter name and the controls.
+        if (useCanvas)
+        {
+            snapshotCanvas = Instantiate(snapshotCanvasPrefab);
+        }
+
+        // Find all shader files.
         noneShader = Shader.Find("SMO/Complete/Base");
         greyscaleShader = Shader.Find("SMO/Complete/Greyscale");
         sepiaShader = Shader.Find("SMO/Complete/Sepia");
@@ -45,43 +57,30 @@ public class SnapshotMode : MonoBehaviour
         gbShader = Shader.Find("SMO/Complete/PixelGB");
         paintingShader = Shader.Find("SMO/Complete/Painting");
 
-        // Add a canvas to show the current filter name and the controls.
-        if(useCanvas)
-        {
-
-        }
-
-        filters.Add(new BaseFilter(noneShader));
-
-        filters.Add(new BaseFilter(greyscaleShader));
-
-        filters.Add(new BaseFilter(sepiaShader));
-
-        filters.Add(new BlurFilter(gaussianShader));
-
-        filters.Add(new BlurFilter(edgeBlurShader));
-
-        filters.Add(new BaseFilter(silhouetteShader));
-
-        filters.Add(new BaseFilter(outlineShader));
-
-        filters.Add(new NeonFilter(bloomShader, new BaseFilter(neonShader)));
-
-        filters.Add(new BloomFilter(bloomShader));
-
-        filters.Add(new CRTFilter(crtShader, new PixelFilter(nesShader), 
-            new BloomFilter(bloomShader)));
-
-        filters.Add(new CRTFilter(crtShader, new PixelFilter(snesShader),
-            new BloomFilter(bloomShader)));
-
-        filters.Add(new PixelFilter(gbShader));
-
-        filters.Add(new BaseFilter(paintingShader));
+        // Create all filters.
+        filters.Add(new BaseFilter("None", noneShader));
+        filters.Add(new BaseFilter("Greyscale", greyscaleShader));
+        filters.Add(new BaseFilter("Sepia Tone", sepiaShader));
+        filters.Add(new BlurFilter("Blur (Full)", gaussianShader));
+        filters.Add(new BlurFilter("Blur (Edge)", edgeBlurShader));
+        filters.Add(new BaseFilter("Silhouette", silhouetteShader));
+        filters.Add(new BaseFilter("Outlines", outlineShader));
+        filters.Add(new NeonFilter("Neon", bloomShader, 
+            new BaseFilter("", neonShader)));
+        filters.Add(new BloomFilter("Bloom", bloomShader));
+        filters.Add(new CRTFilter("NES", crtShader, 
+            new PixelFilter("", nesShader)));
+        filters.Add(new CRTFilter("SNES", crtShader, 
+            new PixelFilter("", snesShader)));
+        filters.Add(new PixelFilter("Game Boy", gbShader));
+        filters.Add(new BaseFilter("Painting", paintingShader));
     }
 
     private void Update()
     {
+        int lastIndex = filterIndex;
+
+        // Logic to swap between filters.
         if(Input.GetMouseButtonDown(0))
         {
             if(--filterIndex < 0)
@@ -96,8 +95,15 @@ public class SnapshotMode : MonoBehaviour
                 filterIndex = 0;
             }
         }
+
+        // Change the filter name when appropriate.
+        if(lastIndex != filterIndex)
+        {
+            snapshotCanvas.SetFilterName(filters[filterIndex].GetName());
+        }
     }
 
+    // Delegate OnRenderImage() to a SnapshotFilter object.
     private void OnRenderImage(RenderTexture src, RenderTexture dst)
     {
         filters[filterIndex].OnRenderImage(src, dst);
