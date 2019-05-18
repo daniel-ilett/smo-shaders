@@ -22,34 +22,43 @@ Some auxiliary shaders are also provided to assist in creating Snapshot Mode eff
 - Box Blur;
 - Gaussian Blur;
 - Bloom;
-- CRT TV.
+- CRT Screen.
 
 ### Scripts Included
 A few helper scripts are also provided alongside these shaders in order to control them:
-- ImageEffectBase.cs;
-- ImageEffectGaussian.cs;
-- ImageEffectBloom.cs;
-- ImageEffectPixelate.cs;
-- ImageEffectCRT.cs.
+- `ImageEffectBase.cs`;
+- `ImageEffectGaussian.cs`;
+- `ImageEffectBloom.cs`;
+- `ImageEffectPixelate.cs`;
+- `ImageEffectCRT.cs`.
 
 Additionally, more scripts related to the test scene are included:
-- CameraMove.cs;
-- Rotate.cs;
-- Hover.cs.
+- `CameraMove.cs`;
+- `Rotate.cs`;
+- `Hover.cs`.
 
-## Software
-The project was created using Unity 2019.2.0a9, but it should be possible to upgrade or downgrade to other versions of Unity.
+A later update added a full Snapshot Mode that allows for easy switching between filters on the fly, containing the following scripts:
+- `SnapshotMode.cs`;
+- `SnapshotFilter.cs`;
+- `SnapshotCanvas.cs`.
 
-## Assets
+### Assets
 This project uses the following assets:
 - ["Single Street Lamp" by Christopher Fisher](https://assetstore.unity.com/packages/3d/environments/urban/single-street-lamp-121728);
 - ["Bench" by IL.RANCH](https://assetstore.unity.com/packages/3d/props/exterior/bench-75025).
+
+### Fonts
+This project uses the following fonts:
+- ["Cabin" by Impallari Type](https://www.1001fonts.com/cabin-font.html).
+
+## Software
+The project was created using Unity 2019.2.0a9, but it should be possible to upgrade or downgrade to other versions of Unity.
 
 ## Authors
 These shaders, and the corresponding tutorial series, were written by [Daniel Ilett](https://github.com/daniel-ilett).
 
 ## Release
-The shader collection was released on April 24th alongside the introduction of the tutorial series.
+The shader collection was released on April 24th alongside the introduction of the tutorial series. Articles are released twice a week, and updates conclude on May 22nd.
 
 Thanks for reading my tutorials.
 
