@@ -9,8 +9,16 @@ public class SnapshotCanvas : MonoBehaviour
     [SerializeField]
     private Text filterEffectText;
 
-    public void SetFilterName(string name)
+    [SerializeField]
+    private List<Graphic> graphics; 
+
+    public void SetFilterProperties(SnapshotFilter filter)
     {
-        filterEffectText.text = name;
+        filterEffectText.text = filter.GetName();
+
+        foreach(var graphic in graphics)
+        {
+            graphic.color = filter.GetColor();
+        }
     }
 }

@@ -5,11 +5,14 @@ using UnityEngine;
 public abstract class SnapshotFilter
 {
     protected Material mainMaterial;
-    protected string name;
 
-    public SnapshotFilter(string name, Shader shader)
+    protected string name;
+    protected Color color;
+
+    public SnapshotFilter(string name, Color color, Shader shader)
     {
         this.name = name;
+        this.color = color;
         mainMaterial = new Material(shader);
     }
 
@@ -19,6 +22,11 @@ public abstract class SnapshotFilter
     {
         return name;
     }
+
+    public Color GetColor()
+    {
+        return color;
+    }
 }
 
 /*  A BaseFilter just takes an input texture and applies a Blit() without any
@@ -26,7 +34,8 @@ public abstract class SnapshotFilter
  */
 public class BaseFilter : SnapshotFilter
 {
-    public BaseFilter(string name, Shader shader) : base(name, shader)
+    public BaseFilter(string name, Color color, Shader shader) 
+        : base(name, color, shader)
     {
 
     }
@@ -42,7 +51,8 @@ public class BaseFilter : SnapshotFilter
  */
 public class BlurFilter : SnapshotFilter
 {
-    public BlurFilter(string name, Shader shader) : base(name, shader)
+    public BlurFilter(string name, Color color, Shader shader) 
+        : base(name, color, shader)
     {
         mainMaterial.SetInt("_KernelSize", 21);
     }
@@ -72,7 +82,8 @@ public class BloomFilter : BlurFilter
     private const int verticalPass = 3;
     private const int bloomPass = 4;
 
-    public BloomFilter(string name, Shader shader) : base(name, shader)
+    public BloomFilter(string name, Color color, Shader shader) 
+        : base(name, color, shader)
     {
         // Set Gaussian blur properties.
         mainMaterial.SetFloat("_Spread", 5.0f);
@@ -108,8 +119,8 @@ public class NeonFilter : BloomFilter
 {
     private BaseFilter neonFilter;
 
-    public NeonFilter(string name, Shader shader, BaseFilter neonFilter) 
-        : base(name, shader)
+    public NeonFilter(string name, Color color, Shader shader, BaseFilter neonFilter) 
+        : base(name, color, shader)
     {
         this.neonFilter = neonFilter;
     }
@@ -133,7 +144,8 @@ public class PixelFilter : SnapshotFilter
 {
     private const int pixelSize = 3;
 
-    public PixelFilter(string name, Shader shader) : base(name, shader)
+    public PixelFilter(string name, Color color, Shader shader) 
+        : base(name, color, shader)
     {
 
     }
@@ -169,8 +181,8 @@ public class CRTFilter : BaseFilter
     private const float brightness = 27.0f;
     private const float contrast = 2.1f;
 
-    public CRTFilter(string name, Shader shader, PixelFilter pixelFilter) 
-        : base(name, shader)
+    public CRTFilter(string name, Color color, Shader shader, PixelFilter pixelFilter) 
+        : base(name, color, shader)
     {
         this.pixelFilter = pixelFilter;
 
