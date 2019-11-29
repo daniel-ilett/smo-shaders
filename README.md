@@ -5,6 +5,8 @@
 ## Overview
 This repository contains a Unity project that emulates the shaders found in Super Mario Odyssey's Snapshot Mode. Inside the `Shaders` folder, there is a collection of template shader files, alongside a folder called `Complete` which contains finished and commented versions of all of those shader files. The reader is intended to follow the Image Effects tutorial series found on https://danielilett.com/, which outlines how each of the shaders work.
 
+<a href='https://ko-fi.com/M4M2190VC' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi1.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+
 ### Shaders Included
 Several shaders are included in this project, corresponding to the following Snapshot Mode effects:
 - Greyscale;
